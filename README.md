@@ -1,7 +1,5 @@
 # 📦 Boxer
 
-![Boxer Logo Placeholder](https://via.placeholder.com/800x200.png?text=Boxer+-+Isolated+Dev+Environments)
-
 **Boxer** is a lightweight, blazing-fast manager for isolated development environments. Whether you want to quickly test a script, play around with a new library, or create a disposable sandbox without cluttering your system — Boxer has got your back! 
 
 Create isolated sandboxes for Python, Go, and Java in just one click (or one command).
