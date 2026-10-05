@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Визначаємо реальний шлях до файлу навіть через symlink
+REAL_SCRIPT="$(realpath "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname "$REAL_SCRIPT")"
+PYTHON_BIN="$SCRIPT_DIR/.venv/bin/python"
+
+_boxer_py() {
+    if [ -x "$PYTHON_BIN" ]; then
+        "$PYTHON_BIN" "$SCRIPT_DIR/cli.py" "$@"
+    else
+        python3 "$SCRIPT_DIR/cli.py" "$@"
+    fi
+}
+
+if [ "$1" = "use" ]; then
+    # Для команди 'use' НЕ використовуємо exec — вивід повинен бути
+    # захоплений shell-функцією (встановленою через 'boxer setup')
+    _boxer_py "$@"
+else
+    _boxer_py "$@"
+fi
