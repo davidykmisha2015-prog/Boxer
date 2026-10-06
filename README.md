@@ -1,6 +1,6 @@
 ![Boxer Banner](banner.png)
 
-# 🥊 Boxer
+# 📦 Boxer
 
 **Boxer** is a lightweight, blazing-fast manager for isolated development environments. Whether you want to quickly test a script, play around with a new library, or create a disposable sandbox without cluttering your system — Boxer has got your back! 
 
