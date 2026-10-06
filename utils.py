@@ -4,7 +4,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parent
+# Підтримка PyInstaller (щоб дані зберігалися поруч із exe, а не в тимчасовій папці)
+if getattr(sys, 'frozen', False):
+    BASE_DIR = Path(sys.executable).parent
+else:
+    BASE_DIR = Path(__file__).parent
+
 DATA_FILE = BASE_DIR / "containers.json"
 SETTINGS_FILE = BASE_DIR / "settings.json"
 BOXES_DIR = BASE_DIR / "boxes"
@@ -304,6 +309,22 @@ def delete_container(name: str, remove_files: bool = False) -> bool:
 
 def open_in_terminal(directory: str | Path) -> bool:
     dir_path = str(Path(directory).resolve())
+    sys_name = platform.system()
+    
+    if sys_name == "Windows":
+        try:
+            import os
+            os.system(f'start cmd /k "cd /d {dir_path}"')
+            return True
+        except Exception:
+            return False
+    elif sys_name == "Darwin":
+        try:
+            subprocess.Popen(["open", "-a", "Terminal", dir_path])
+            return True
+        except Exception:
+            return False
+
     terminals = [
         ["kitty", "--directory", dir_path],
         ["gnome-terminal", "--working-directory", dir_path],
@@ -323,12 +344,22 @@ def open_in_terminal(directory: str | Path) -> bool:
                 continue
     return False
 
+import platform
 def open_in_folder(directory: str | Path) -> bool:
     dir_path = str(Path(directory).resolve())
-    if shutil.which("xdg-open"):
-        try:
-            subprocess.Popen(["xdg-open", dir_path])
+    sys_name = platform.system()
+    try:
+        if sys_name == "Windows":
+            import os
+            os.startfile(dir_path)
             return True
-        except OSError:
-            pass
+        elif sys_name == "Darwin":
+            subprocess.Popen(["open", dir_path])
+            return True
+        else:
+            if shutil.which("xdg-open"):
+                subprocess.Popen(["xdg-open", dir_path])
+                return True
+    except Exception:
+        pass
     return False

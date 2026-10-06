@@ -2,6 +2,9 @@ import flet as ft
 import utils
 import urllib.request
 import json
+import subprocess
+import threading
+from pathlib import Path
 
 ACCENT = "#6C72FF"
 BG = "#17171C"
@@ -175,7 +178,11 @@ def main(page: ft.Page):
             pkg_log_output.controls.append(ft.Text(utils.t("pkg_installing", pkg_name=current_pkg_name), color=ft.Colors.YELLOW_400))
             page.update()
             
-            venv_pip = Path(path) / ".venv" / "bin" / "pip"
+            import platform
+            if platform.system() == "Windows":
+                venv_pip = Path(path) / ".venv" / "Scripts" / "pip.exe"
+            else:
+                venv_pip = Path(path) / ".venv" / "bin" / "pip"
             
             def _run_install():
                 try:

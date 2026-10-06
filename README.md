@@ -1,4 +1,6 @@
-# 📦 Boxer
+![Boxer Banner](banner.png)
+
+# 🥊 Boxer
 
 **Boxer** is a lightweight, blazing-fast manager for isolated development environments. Whether you want to quickly test a script, play around with a new library, or create a disposable sandbox without cluttering your system — Boxer has got your back! 
 
@@ -15,33 +17,50 @@ Create isolated sandboxes for Python, Go, and Java in just one click (or one com
 - 🌐 **Multilingual**: Fully localized in English, Ukrainian, German, and Polish (both GUI and CLI).
 - 🚀 **Terminal Integration**: Open your containers instantly in your favorite terminal (Kitty, Gnome Terminal, Alacritty, etc.).
 
-## 🛠️ Installation
+---
 
+## 🛠️ Installation & Setup
+
+You can use Boxer as a pre-compiled standalone executable (recommended) or run it directly from the source code.
+
+### Option A: Using the Pre-compiled Release (Linux)
+1. Download the latest `Boxer-Linux-x86_64.tar.gz` from the [Releases](#) page.
+2. Extract the archive.
+3. Run the application:
+   ```bash
+   ./boxer_app
+   ```
+4. *(Optional)* To add Boxer to your application menu with the nice squircle icon, copy the included `.desktop` file to your applications folder:
+   ```bash
+   cp boxer_app.desktop ~/.local/share/applications/
+   ```
+
+### Option B: Running from Source
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/boxer.git
    cd boxer
    ```
-
 2. **Create a virtual environment and install dependencies:**
    ```bash
    python3 -m venv .venv
    source .venv/bin/activate
    pip install -r requirements.txt
    ```
+3. **Run the GUI:**
+   ```bash
+   python3 main.py
+   ```
+
+---
 
 ## 🚀 Usage
 
 ### Desktop Application (GUI)
-
-To launch the graphical interface, simply run:
-```bash
-python3 main.py
-```
+Just launch `./boxer_app` (or `python3 main.py`) and enjoy the intuitive graphical interface!
 
 ### Command Line Interface (CLI)
-
-Boxer comes with a powerful CLI. You can use it via `cli.py` or the `boxer` bash wrapper.
+Boxer comes with a powerful CLI. You can use it via the `cli.py` script or the `boxer` bash wrapper.
 
 **Basic commands:**
 ```bash
@@ -58,8 +77,7 @@ Boxer comes with a powerful CLI. You can use it via `cli.py` or the `boxer` bash
 ./boxer rm my-test-project -r
 ```
 
-### ⚡ CLI Shell Integration (Boxer Use)
-
+### ⚡ CLI Shell Integration
 You can seamlessly activate a container's Python environment directly in your current shell:
 
 1. Install the shell integration (adds a small function to your `.bashrc` / `.zshrc`):
@@ -72,6 +90,8 @@ You can seamlessly activate a container's Python environment directly in your cu
    boxer use my-test-project
    ```
 
+---
+
 ## 🌍 Supported Languages
 
 You can change the interface language in the **Settings** tab (GUI). The CLI will automatically adopt the language selected in the GUI.
@@ -80,6 +100,8 @@ You can change the interface language in the **Settings** tab (GUI). The CLI wil
 - 🇺🇦 Ukrainian
 - 🇩🇪 German
 - 🇵🇱 Polish
+
+---
 
 ## ☕ Support the Project
 

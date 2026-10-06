@@ -110,7 +110,11 @@ def cmd_use(args):
             print(f"echo '{msg}' >&2; false")
         sys.exit(1)
 
-    venv_activate = Path(path) / ".venv" / "bin" / "activate"
+    import platform
+    if platform.system() == "Windows":
+        venv_activate = Path(path) / ".venv" / "Scripts" / "activate.bat"
+    else:
+        venv_activate = Path(path) / ".venv" / "bin" / "activate"
 
     if not venv_activate.exists():
         # venv відсутній — повідомляємо і виходимо
