@@ -23,23 +23,20 @@ Create isolated sandboxes for Python, Go, and Java in just one click (or one com
 
 You can use Boxer as a pre-compiled standalone executable (recommended) or run it directly from the source code.
 
-### Option A: Using the Pre-compiled Release (Linux)
-1. Download the latest `Boxer-Linux-x86_64.tar.gz` from the [Releases](#) page.
-2. Extract the archive.
-3. Run the application:
-   ```bash
-   ./boxer_app
-   ```
-4. *(Optional)* To add Boxer to your application menu with the nice squircle icon, copy the included `.desktop` file to your applications folder:
-   ```bash
-   cp boxer_app.desktop ~/.local/share/applications/
-   ```
+### Option A: Quick Install via Script (Linux)
+
+The easiest way to install Boxer is using our installation script. It will automatically download the latest release, set it up, and add it to your system path and application menu.
+
+Run the following command in your terminal:
+```bash
+curl -sL https://raw.githubusercontent.com/davidykmisha2015-prog/Boxer/main/install.sh | bash
+```
 
 ### Option B: Running from Source
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/boxer.git
-   cd boxer
+   git clone https://github.com/davidykmisha2015-prog/Boxer.git
+   cd Boxer
    ```
 2. **Create a virtual environment and install dependencies:**
    ```bash
@@ -57,24 +54,24 @@ You can use Boxer as a pre-compiled standalone executable (recommended) or run i
 ## 🚀 Usage
 
 ### Desktop Application (GUI)
-Just launch `./boxer_app` (or `python3 main.py`) and enjoy the intuitive graphical interface!
+Just run `boxer` in your terminal or launch it from your application menu, and enjoy the intuitive graphical interface!
 
 ### Command Line Interface (CLI)
-Boxer comes with a powerful CLI. You can use it via the `cli.py` script or the `boxer` bash wrapper.
+Boxer comes with a powerful CLI.
 
 **Basic commands:**
 ```bash
 # List all containers
-./boxer list
+boxer list
 
 # Create a new container
-./boxer add my-test-project --lang Python
+boxer add my-test-project --lang Python
 
 # Open a container in your file manager
-./boxer open my-test-project
+boxer open my-test-project
 
 # Delete a container (add -r to remove the physical folder)
-./boxer rm my-test-project -r
+boxer rm my-test-project -r
 ```
 
 ### ⚡ CLI Shell Integration
@@ -82,7 +79,7 @@ You can seamlessly activate a container's Python environment directly in your cu
 
 1. Install the shell integration (adds a small function to your `.bashrc` / `.zshrc`):
    ```bash
-   ./boxer setup
+   boxer setup
    source ~/.bashrc  # or ~/.zshrc
    ```
 2. Activate your environment anywhere:
