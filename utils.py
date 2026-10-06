@@ -290,6 +290,13 @@ def add_container(name: str, language: str) -> dict:
         if not venv_path.exists():
             python_exe = sys.executable if Path(sys.executable).exists() else "python3"
             subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True)
+    elif language == "Go":
+        mod_file = box_path / "go.mod"
+        if not mod_file.exists():
+            try:
+                subprocess.run(["go", "mod", "init", name], cwd=str(box_path), capture_output=True)
+            except FileNotFoundError:
+                pass # Якщо Go не встановлено, просто ігноруємо
     item = {"name": name, "language": language, "path": str(box_path)}
     containers.append(item)
     save_containers()
