@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=boxer_app
+Exec=boxer_app
+Icon=boxer_app
+Terminal=false
+Categories=Utility;
+StartupWMClass=boxer_app

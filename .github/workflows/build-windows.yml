@@ -1,0 +1,45 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Дозволяє запустити збірку вручну з GitHub
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller flet
+
+      - name: Build GUI App
+        run: |
+          # Збираємо головний додаток. --onedir або --onefile на твій вибір.
+          # Використовуємо --windowed, щоб не відкривалась чорна консоль.
+          pyinstaller --noconfirm --onedir --windowed --icon "app_icon.png" --name "BoxerApp" "main.py"
+          
+      - name: Build CLI
+        run: |
+          # Збираємо консольну утиліту (без --windowed)
+          pyinstaller --noconfirm --onefile --name "boxer" "cli.py"
+          
+          # Копіюємо CLI у папку з GUI, щоб усе було разом
+          Copy-Item "dist\boxer.exe" -Destination "dist\BoxerApp\"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Boxer-Windows-Build
+          path: dist/BoxerApp/

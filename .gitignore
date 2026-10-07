@@ -1,0 +1,22 @@
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Boxer specific data
+boxes/
+containers.json
+settings.json
+scratch/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
