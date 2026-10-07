@@ -288,8 +288,16 @@ def add_container(name: str, language: str) -> dict:
     if language == "Python":
         venv_path = box_path / ".venv"
         if not venv_path.exists():
-            python_exe = sys.executable if Path(sys.executable).exists() else "python3"
-            subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True)
+            if getattr(sys, 'frozen', False):
+                import platform
+                python_exe = "python" if platform.system() == "Windows" else "python3"
+            else:
+                python_exe = sys.executable
+                
+            try:
+                subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True)
+            except Exception as e:
+                print(f"Помилка створення venv: {e}")
     elif language == "Go":
         mod_file = box_path / "go.mod"
         if not mod_file.exists():
