@@ -23,22 +23,54 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
+    /* Basic grid pattern */
+    background-image: 
+        linear-gradient(rgba(108, 114, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 114, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
 }
 
-/* Global Glowing background effect (Antigravity style) */
+/* Global Glowing Grid background effect */
 #glow {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(
-        circle 600px at var(--mouse-x) var(--mouse-y),
-        rgba(108, 114, 255, 0.12),
+    /* Glowing grid */
+    background-image: 
+        linear-gradient(rgba(108, 114, 255, 0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(108, 114, 255, 0.4) 1px, transparent 1px);
+    background-size: 40px 40px;
+    /* Mask the grid so it only shows near the cursor */
+    mask-image: radial-gradient(
+        circle 350px at var(--mouse-x) var(--mouse-y),
+        black,
+        transparent 80%
+    );
+    -webkit-mask-image: radial-gradient(
+        circle 350px at var(--mouse-x) var(--mouse-y),
+        black,
         transparent 80%
     );
     pointer-events: none;
     z-index: 0;
+}
+
+/* Click animation class */
+.click-pop {
+    position: fixed;
+    pointer-events: none;
+    font-size: 2rem;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 9999;
+    animation: pop-animation 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes pop-animation {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    50% { transform: translate(-50%, -150%) scale(1.5); opacity: 1; }
+    100% { transform: translate(-50%, -200%) scale(2); opacity: 0; }
 }
 
 nav, main, section, footer {

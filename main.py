@@ -496,12 +496,36 @@ def main(page: ft.Page):
         border_radius=8,
     )
 
+    import platform
+    os_name = platform.system()
+    os_release = platform.release()
+    if os_name == "Windows":
+        os_icon = ft.Icons.WINDOW
+        os_color = "#00A4EF"
+    elif os_name == "Linux":
+        os_icon = ft.Icons.TERMINAL
+        os_color = "#FCC624"
+    elif os_name == "Darwin":
+        os_name = "macOS"
+        os_icon = ft.Icons.APPLE
+        os_color = "#999999"
+    else:
+        os_icon = ft.Icons.COMPUTER
+        os_color = "white"
+
     settings_view = ft.Column([
         ft.Container(
             content=ft.Column([
                 ft.Text(utils.t("settings_title"), size=28, weight=ft.FontWeight.BOLD, color="white"),
                 ft.Divider(color=BORDER, height=30),
                 lang_dropdown_settings,
+                ft.Divider(color=BORDER, height=30),
+                ft.Text("Інформація про систему", size=20, weight=ft.FontWeight.BOLD, color="white"),
+                ft.Row([
+                    ft.Icon(os_icon, color=os_color, size=30),
+                    ft.Text(f"{os_name} {os_release}", size=16, color="white")
+                ], spacing=10),
+                ft.Text(f"Boxer автоматично оптимізує налаштування контейнерів під {os_name}.", size=14, color=ft.Colors.GREY_400),
             ], spacing=10),
             padding=30,
             expand=True,
