@@ -74,11 +74,7 @@ def cmd_open(args):
 
 
 def cmd_use(args):
-    """Активує Python-середовище контейнера у поточному терміналі (eval-able).
-
-    Для зручного використання виконай: boxer setup
-    Після цього 'boxer use <назва>' буде одразу активувати середовище.
-    """
+    """Активує Python-середовище контейнера у поточному терміналі."""
     name = args.name.strip()
     box = next((c for c in utils.containers if c.get("name") == name), None)
 
@@ -87,12 +83,10 @@ def cmd_use(args):
             print(utils.t("cli_not_found", name=name))
             print(f"   Перевір список: boxer list")
         else:
-            print(f"echo '❌ Boxer: контейнер \\'{name}\\' не знайдено.' >&2; false")
+            print(f"echo '❌ Boxer: контейнер \'{name}\' не знайдено.' >&2; false")
         sys.exit(1)
 
     lang = box.get("language", "Python")
-
-    # boxer use підтримує лише Python-контейнери
     if lang != "Python":
         msg = f"⚠️  'boxer use' працює лише з Python-контейнерами. '{name}' — це {lang}."
         if sys.stdout.isatty():
@@ -111,66 +105,96 @@ def cmd_use(args):
         sys.exit(1)
 
     import platform
-    if platform.system() == "Windows":
-        venv_activate = Path(path) / ".venv" / "Scripts" / "activate.bat"
+    is_win = platform.system() == "Windows"
+    if is_win:
+        venv_activate = Path(path) / ".venv" / "Scripts" / "Activate.ps1"
     else:
         venv_activate = Path(path) / ".venv" / "bin" / "activate"
 
     if not venv_activate.exists():
-        # venv відсутній — повідомляємо і виходимо
         if sys.stdout.isatty():
             print(f"⚠️  У контейнері '{name}' немає venv.")
             print(f"   Створи його:")
             print(f"   python -m venv {path}/.venv")
         else:
-            print(f"echo '⚠️  Boxer: у контейнері \\'{name}\\' немає venv. Створи: python -m venv {path}/.venv' >&2; false")
+            print(f"echo '⚠️  Boxer: у контейнері \'{name}\' немає venv.' >&2; false")
         sys.exit(1)
 
-    # Тільки активація venv — без зміни директорії
-    commands = [
-        f'source "{venv_activate}"',
-        f'echo "🐍 Boxer: активовано Python з контейнера \\"{name}\\""',
-    ]
+    if is_win:
+        commands = [
+            f'. "{venv_activate}"',
+            f'Write-Host "🐍 Boxer: активовано Python з контейнера \"{name}\""',
+        ]
+        setup_cmd = "boxer setup ; . $PROFILE"
+        eval_cmd = f'Invoke-Expression (boxer use {name})'
+    else:
+        commands = [
+            f'source "{venv_activate}"',
+            f'echo "🐍 Boxer: активовано Python з контейнера \"{name}\""',
+        ]
+        setup_cmd = "boxer setup && source ~/.bashrc"
+        eval_cmd = f'eval "$(boxer use {name})"'
 
     if sys.stdout.isatty():
-        # Прямий виклик з терміналу — показуємо підказку
         print(f"⚠️  'boxer use' потребує shell-інтеграції для активації середовища.")
         print(f"")
         print(f"   Встанови одним рядком:")
-        print(f"   boxer setup && source ~/.bashrc")
+        print(f"   {setup_cmd}")
         print(f"")
         print(f"   Або одразу виконай:")
-        print(f'   eval "$(boxer use {name})"')
-        print(f"")
-        print(f"📋 Що буде виконано:")
-        for cmd in commands:
-            print(f"   {cmd}")
+        print(f'   {eval_cmd}')
     else:
-        # Виклик через shell-функцію (не tty) — виводимо чисті команди
-        print("\n".join(commands))
+        print("
+".join(commands))
+
 
 
 def cmd_setup(args):
-    """Встановлює boxer() shell-функцію в .bashrc/.zshrc для підтримки 'boxer use'."""
+    """Встановлює boxer shell-функцію для підтримки 'boxer use' (Bash/Zsh/PowerShell)."""
     boxer_bin = str(Path(__file__).parent / "boxer")
+    if getattr(sys, 'frozen', False):
+        boxer_bin = str(Path(sys.executable))
 
-    shell = os.environ.get("SHELL", "/bin/bash")
-    if "zsh" in shell:
-        rc_file = Path.home() / ".zshrc"
-    else:
-        rc_file = Path.home() / ".bashrc"
-
+    import platform
+    is_win = platform.system() == "Windows"
+    
     marker = "# >>> boxer shell integration >>>"
     end_marker = "# <<< boxer shell integration <<<"
 
-    content = rc_file.read_text(encoding="utf-8") if rc_file.exists() else ""
-    if marker in content:
-        print(f"✅ Boxer shell-інтеграція вже встановлена у {rc_file}")
-        print(f"   Щоб оновити — видали блок між маркерами та запусти знову.")
-        return
-
-    # Shell-функція що перехоплює 'use' і eval'ить вивід бінарника
-    function_code = f"""
+    if is_win:
+        import subprocess
+        try:
+            res = subprocess.run(["powershell", "-NoProfile", "-Command", "[System.Console]::Write($PROFILE)"], capture_output=True, text=True)
+            rc_file = Path(res.stdout.strip())
+        except Exception:
+            rc_file = Path.home() / "Documents" / "WindowsPowerShell" / "Microsoft.PowerShell_profile.ps1"
+        
+        rc_file.parent.mkdir(parents=True, exist_ok=True)
+        function_code = f"""
+{marker}
+function boxer {{
+    if ($args.Count -gt 0 -and $args[0] -eq "use") {{
+        $out = & "{boxer_bin}" $args
+        if ($LASTEXITCODE -eq 0) {{
+            Invoke-Expression $out
+        }} else {{
+            Write-Host $out
+        }}
+    }} else {{
+        & "{boxer_bin}" $args
+    }}
+}}
+{end_marker}
+"""
+        reload_cmd = ". $PROFILE"
+    else:
+        shell = os.environ.get("SHELL", "/bin/bash")
+        if "zsh" in shell:
+            rc_file = Path.home() / ".zshrc"
+        else:
+            rc_file = Path.home() / ".bashrc"
+        
+        function_code = f"""
 {marker}
 boxer() {{
     if [ "$1" = "use" ]; then
@@ -184,6 +208,13 @@ boxer() {{
 }}
 {end_marker}
 """
+        reload_cmd = f"source {rc_file}"
+
+    content = rc_file.read_text(encoding="utf-8") if rc_file.exists() else ""
+    if marker in content:
+        print(f"✅ Boxer shell-інтеграція вже встановлена у {rc_file}")
+        print(f"   Щоб оновити — видали блок між маркерами та запусти знову.")
+        return
 
     with open(rc_file, "a", encoding="utf-8") as f:
         f.write(function_code)
@@ -191,9 +222,10 @@ boxer() {{
     print(f"✅ Shell-функцію boxer() додано до {rc_file}")
     print(f"")
     print(f"🔄 Активуй зміни:")
-    print(f"   source {rc_file}")
+    print(f"   {reload_cmd}")
     print(f"")
     print(f"🚀 Тепер команда 'boxer use <назва>' буде активувати .venv у поточному терміналі!")
+
 
 
 def main():
