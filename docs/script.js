@@ -27,14 +27,27 @@ document.addEventListener("mousedown", (e) => {
     pop.className = "click-pop";
     pop.innerText = emoji;
     
-    // Position exactly at the mouse click
     pop.style.left = `${e.clientX}px`;
     pop.style.top = `${e.clientY}px`;
     
     document.body.appendChild(pop);
     
-    // Remove element after animation
     setTimeout(() => {
         pop.remove();
     }, 1000);
+});
+
+// OS Detection
+window.addEventListener("DOMContentLoaded", () => {
+    let osName = "Unknown";
+    const userAgent = window.navigator.userAgent;
+    
+    if (userAgent.indexOf("Win") !== -1) osName = "Windows";
+    else if (userAgent.indexOf("Mac") !== -1) osName = "macOS";
+    else if (userAgent.indexOf("Linux") !== -1) osName = "Linux";
+    
+    const downloadBtn = document.getElementById("download-btn");
+    if (downloadBtn && osName !== "Unknown") {
+        downloadBtn.innerText = `Завантажити для ${osName}`;
+    }
 });

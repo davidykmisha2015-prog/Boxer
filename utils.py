@@ -242,8 +242,6 @@ def t(key, **kwargs):
 # Шаблони для різних мов програмування
 LANGUAGE_TEMPLATES: dict[str, tuple[str, str]] = {
     "Python": ("main.py",   '# Boxer Container: {name}\nprint("Привіт із контейнера {name}!")\n'),
-    "Node.js": ("index.js",  '// Boxer Container: {name}\nconsole.log("Привіт із контейнера {name}!");\n'),
-    "C++":    ("main.cpp",  '#include <iostream>\n\nint main() {{\n    std::cout << "Привіт із контейнера {name}!" << std::endl;\n    return 0;\n}}\n'),
     "Go":     ("main.go",   'package main\n\nimport "fmt"\n\nfunc main() {{\n    fmt.Println("Привіт із контейнера {name}!")\n}}\n'),
     "Java":   ("Main.java", 'public class Main {{\n    public static void main(String[] args) {{\n        System.out.println("Привіт із контейнера {name}!");\n    }}\n}}\n'),
 }
@@ -307,13 +305,6 @@ def add_container(name: str, language: str) -> dict:
                 subprocess.run(["go", "mod", "init", name], cwd=str(box_path), capture_output=True)
             except FileNotFoundError:
                 pass # Якщо Go не встановлено, просто ігноруємо
-    elif language == "Node.js":
-        pkg_file = box_path / "package.json"
-        if not pkg_file.exists():
-            try:
-                subprocess.run(["npm", "init", "-y"], cwd=str(box_path), capture_output=True)
-            except FileNotFoundError:
-                pass
     item = {"name": name, "language": language, "path": str(box_path)}
     containers.append(item)
     save_containers()
