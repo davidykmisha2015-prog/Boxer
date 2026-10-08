@@ -1,7 +1,7 @@
 # Maintainer: davidykmisha2015-prog
 
 pkgname=boxer
-pkgver=1.0.1
+pkgver=1.1.1
 pkgrel=1
 pkgdesc="A lightweight, blazing-fast manager for isolated development environments"
 arch=('x86_64')
