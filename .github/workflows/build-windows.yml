@@ -28,7 +28,7 @@ jobs:
         run: |
           # Збираємо головний додаток. --onedir або --onefile на твій вибір.
           # Використовуємо --windowed, щоб не відкривалась чорна консоль.
-          pyinstaller --noconfirm --onedir --windowed --icon "app_icon.png" --name "BoxerApp" "main.py"
+          pyinstaller --noconfirm --onedir --windowed --hidden-import flet_desktop --icon "app_icon.png" --name "BoxerApp" "main.py"
           
       - name: Build CLI
         run: |
