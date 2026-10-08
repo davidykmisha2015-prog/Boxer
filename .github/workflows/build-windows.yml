@@ -26,9 +26,8 @@ jobs:
 
       - name: Build GUI App
         run: |
-          # Збираємо головний додаток. --onedir або --onefile на твій вибір.
-          # Використовуємо --windowed, щоб не відкривалась чорна консоль.
-          pyinstaller --noconfirm --onedir --windowed --hidden-import flet_desktop --icon "app_icon.png" --name "BoxerApp" "main.py"
+          # Використовуємо flet pack для правильного пакування Flet додатку
+          flet pack main.py --name "BoxerApp" --icon "app_icon.png" --onedir -y
           
       - name: Build CLI
         run: |
