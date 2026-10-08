@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxer - Ізольовані середовища для розробки</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="glow"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            Boxer
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/davidykmisha2015-prog/Boxer" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <div class="badge">v1.1.1 Mid Update 🚀</div>
+            <h1>Легке керування<br><span class="accent-text">контейнерами</span></h1>
+            <p>Швидкий менеджер для ізольованих середовищ розробки. Працює на Windows, Linux та macOS. Підтримує Python, Go та багато іншого.</p>
+            
+            <div class="hero-buttons">
+                <a href="https://github.com/davidykmisha2015-prog/Boxer/releases/latest" class="btn btn-primary">Завантажити для Windows</a>
+                <a href="https://github.com/davidykmisha2015-prog/Boxer" class="btn btn-secondary">Вихідний код</a>
+            </div>
+            
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer add MyProject --lang Python<br>
+                    <span class="success">✅ Successfully created container 'MyProject'</span><br>
+                    <span class="prompt">$</span> boxer use MyProject<br>
+                    <span class="info">🐍 Boxer: активовано Python з контейнера "MyProject"</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="features">
+        <div class="cards">
+            <div class="card">
+                <div class="card-border"></div>
+                <div class="card-content">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6C72FF" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <h3>Ізоляція</h3>
+                    <p>Створюйте незалежні віртуальні середовища для кожного проєкту без конфліктів залежностей.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-border"></div>
+                <div class="card-content">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6C72FF" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <h3>Швидкість</h3>
+                    <p>Миттєве створення та активація проєктів завдяки глибокій інтеграції з PowerShell, Bash та Zsh.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-border"></div>
+                <div class="card-content">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6C72FF" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                    <h3>Кросплатформність</h3>
+                    <p>Зручний графічний інтерфейс та потужна консоль, що працюють однаково круто на будь-якій ОС.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Boxer. Зроблено з ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
