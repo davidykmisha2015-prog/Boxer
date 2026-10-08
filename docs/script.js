@@ -51,3 +51,27 @@ window.addEventListener("DOMContentLoaded", () => {
         downloadBtn.innerText = `Завантажити для ${osName}`;
     }
 });
+
+
+// Theme Switcher
+const themeToggle = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'dark';
+
+if (currentTheme === 'light') {
+    document.body.setAttribute('data-theme', 'light');
+    if(themeToggle) themeToggle.innerHTML = '🌙';
+}
+
+if(themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        if (document.body.getAttribute('data-theme') === 'light') {
+            document.body.removeAttribute('data-theme');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '☀️';
+        } else {
+            document.body.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '🌙';
+        }
+    });
+}

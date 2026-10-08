@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boxer - Документація</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="glow"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <a href="index.html" style="color: inherit; text-decoration: none;">Boxer</a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Головна</a>
+            <a href="https://github.com/davidykmisha2015-prog/Boxer" target="_blank">GitHub</a>
+            <button id="theme-toggle" class="icon-btn" title="Змінити тему">☀️</button>
+        </div>
+    </nav>
+
+    <main class="hero guide-content" style="text-align: left; max-width: 800px; margin: 0 auto; padding-top: 120px;">
+        <h1 style="font-size: 3rem; margin-bottom: 2rem;">Документація <span class="accent-text">Boxer</span></h1>
+        
+        <section style="margin-bottom: 3rem;">
+            <h2>Що таке Boxer?</h2>
+            <p><strong>Boxer</strong> — це швидкий менеджер для ізольованих середовищ розробки. Він дозволяє вам легко створювати, видаляти та керувати контейнерами проєктів для різних мов програмування, не засмічуючи вашу операційну систему глобальними залежностями.</p>
+        </section>
+
+        <section style="margin-bottom: 3rem;">
+            <h2>Встановлення</h2>
+            <p>Перейдіть на сторінку <a href="https://github.com/davidykmisha2015-prog/Boxer/releases/latest" style="color: var(--accent);">релізів на GitHub</a> та завантажте версію Boxer для вашої операційної системи (Windows, Linux або macOS).</p>
+            <p>Після розпакування або встановлення виконайте базове налаштування CLI в терміналі:</p>
+            <div class="terminal" style="margin: 1.5rem 0; text-align: left;">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer setup<br>
+                    <span class="success">✅ Boxer setup complete. Please restart your terminal...</span>
+                </div>
+            </div>
+            <p>Ця команда автоматично додасть <code>boxer</code> до вашого <code>PATH</code> та налаштує необхідні alias-и для вашого терміналу (Bash, Zsh, або PowerShell).</p>
+        </section>
+
+        <section style="margin-bottom: 3rem;">
+            <h2>Використання CLI</h2>
+            
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">1. Створення проєкту</h3>
+            <p>Щоб створити нове ізольоване середовище, використовуйте команду <code>add</code>:</p>
+            <div class="terminal" style="margin: 1rem 0; text-align: left;">
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer add MyProject --lang Python<br>
+                    <span class="success">✅ Successfully created container 'MyProject'</span>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">2. Активація середовища</h3>
+            <p>Щоб активувати середовище та почати в ньому працювати, використовуйте <code>use</code>:</p>
+            <div class="terminal" style="margin: 1rem 0; text-align: left;">
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer use MyProject<br>
+                    <span class="info">🐍 Boxer: активовано Python з контейнера "MyProject"</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">3. Видалення проєкту</h3>
+            <p>Щоб видалити проєкт та очистити його ресурси:</p>
+            <div class="terminal" style="margin: 1rem 0; text-align: left;">
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer remove MyProject<br>
+                    <span class="success">✅ Successfully removed container 'MyProject'</span>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">4. Перегляд проєктів</h3>
+            <p>Щоб переглянути список всіх ваших контейнерів:</p>
+            <div class="terminal" style="margin: 1rem 0; text-align: left;">
+                <div class="terminal-body">
+                    <span class="prompt">$</span> boxer list<br>
+                    <span class="info">- MyProject (Python)</span><br>
+                    <span class="info">- GoBackend (Go)</span>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-bottom: 3rem;">
+            <h2>Використання GUI (Графічний інтерфейс)</h2>
+            <p>Якщо ви віддаєте перевагу візуальному інтерфейсу, просто запустіть додаток <code>Boxer</code>. Графічний інтерфейс надає всі ті ж можливості, що і CLI:</p>
+            <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 1.6;">
+                <li>Створення нових середовищ із вибором мови з випадаючого списку.</li>
+                <li>Перегляд списку існуючих проєктів у вигляді зручних карток.</li>
+                <li>Видалення непотрібних контейнерів в один клік.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Boxer. Зроблено з ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

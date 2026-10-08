@@ -1,10 +1,30 @@
 :root {
+    /* Dark Theme (Default) */
     --bg-color: #17171C;
     --card-bg: #1E1E26;
     --card-border: #4A4D8F;
     --accent: #6C72FF;
     --text-main: #FFFFFF;
     --text-muted: #A0A0B0;
+    --grid-color: var(--grid-color);
+    --grid-glow: var(--grid-glow);
+    --card-glow: var(--grid-glow);
+    --terminal-bg: #0D0D12;
+    --terminal-header: #1A1A24;
+}
+
+[data-theme="light"] {
+    --bg-color: #F8F9FA;
+    --card-bg: #FFFFFF;
+    --card-border: #D1D5DB;
+    --accent: #5A62D8;
+    --text-main: #111827;
+    --text-muted: #4B5563;
+    --grid-color: rgba(90, 98, 216, 0.08);
+    --grid-glow: rgba(90, 98, 216, 0.25);
+    --card-glow: rgba(90, 98, 216, 0.2);
+    --terminal-bg: #1E1E1E;
+    --terminal-header: #2D2D2D;
     
     --mouse-x: 50%;
     --mouse-y: 50%;
@@ -25,8 +45,8 @@ body {
     position: relative;
     /* Basic grid pattern */
     background-image: 
-        linear-gradient(rgba(108, 114, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 114, 255, 0.05) 1px, transparent 1px);
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: 40px 40px;
 }
 
@@ -39,8 +59,8 @@ body {
     height: 100vh;
     /* Glowing grid */
     background-image: 
-        linear-gradient(rgba(108, 114, 255, 0.4) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 114, 255, 0.4) 1px, transparent 1px);
+        linear-gradient(var(--grid-glow) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-glow) 1px, transparent 1px);
     background-size: 40px 40px;
     /* Mask the grid so it only shows near the cursor */
     mask-image: radial-gradient(
@@ -172,7 +192,7 @@ h1 {
     background: var(--accent);
     color: white;
     border: none;
-    box-shadow: 0 4px 20px rgba(108, 114, 255, 0.4);
+    box-shadow: 0 4px 20px var(--grid-glow);
 }
 
 .btn-primary:hover {
@@ -192,7 +212,7 @@ h1 {
 
 /* Terminal */
 .terminal {
-    background: #0D0D12;
+    background: var(--terminal-bg);
     border: 1px solid #262738;
     border-radius: 12px;
     width: 100%;
@@ -204,7 +224,7 @@ h1 {
 }
 
 .terminal-header {
-    background: #1A1A24;
+    background: var(--terminal-header);
     padding: 12px 16px;
     display: flex;
     gap: 8px;
@@ -246,7 +266,7 @@ h1 {
 }
 
 .card {
-    background: rgba(30, 30, 38, 0.5); /* var(--card-bg) transparent */
+    background: transparent; /* var(--card-bg) transparent */
     border-radius: 16px;
     position: relative;
     cursor: pointer;
@@ -260,7 +280,7 @@ h1 {
     padding: 2px;
     background: radial-gradient(
         800px circle at var(--card-mouse-x, 0) var(--card-mouse-y, 0),
-        rgba(108, 114, 255, 0.4),
+        var(--grid-glow),
         transparent 40%
     );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -311,4 +331,90 @@ footer {
     h1 { font-size: 42px; }
     .hero-buttons { flex-direction: column; }
     .terminal { font-size: 13px; }
+}
+
+
+/* Theme Toggle */
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 4px 8px;
+    transition: transform 0.2s;
+}
+.icon-btn:hover {
+    transform: scale(1.1);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Documentation Content */
+.guide-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+[data-theme="dark"] .guide-container {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.guide-container h1 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.guide-container h2 {
+    font-size: 24px;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    color: var(--accent);
+}
+
+.guide-container h3 {
+    font-size: 20px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.guide-container p, .guide-container li {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.guide-container ul {
+    margin-left: 24px;
+    margin-bottom: 24px;
+}
+
+.guide-container pre {
+    background: var(--terminal-bg);
+    color: #E2E2E2;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    border: 1px solid var(--card-border);
+}
+
+.guide-container code {
+    background: rgba(108, 114, 255, 0.1);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
 }
