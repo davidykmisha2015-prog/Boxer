@@ -144,8 +144,7 @@ def cmd_use(args):
         print(f"   Або одразу виконай:")
         print(f'   {eval_cmd}')
     else:
-        print("
-".join(commands))
+        print("\\n".join(commands))
 
 
 
