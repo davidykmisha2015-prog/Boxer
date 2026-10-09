@@ -24,3 +24,6 @@ scratch/
 # Compiled binaries
 boxer_app
 *.tar.gz
+build/
+dist/
+*.spec
