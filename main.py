@@ -180,14 +180,18 @@ def main(page: ft.Page):
             
             import platform
             if platform.system() == "Windows":
-                venv_pip = Path(path) / ".venv" / "Scripts" / "pip.exe"
+                venv_python = Path(path) / ".venv" / "Scripts" / "python.exe"
             else:
-                venv_pip = Path(path) / ".venv" / "bin" / "pip"
+                venv_python = Path(path) / ".venv" / "bin" / "python3"
             
             def _run_install():
+                if not venv_python.exists():
+                    pkg_log_output.controls.append(ft.Text(f"Помилка: venv не знайдено! ({venv_python})", color=ft.Colors.RED_400))
+                    page.update()
+                    return
                 try:
                     proc = subprocess.Popen(
-                        [str(venv_pip), "install", current_pkg_name],
+                        [str(venv_python), "-m", "pip", "install", current_pkg_name],
                         stdout=subprocess.PIPE,
                         stderr=subprocess.STDOUT,
                         text=True
@@ -374,7 +378,13 @@ def main(page: ft.Page):
             page.update()
             return
 
-        new_item = utils.add_container(name, lang_dropdown.value)
+        try:
+            new_item = utils.add_container(name, lang_dropdown.value)
+        except Exception as ex:
+            name_field.error_text = str(ex)
+            page.update()
+            return
+            
         nonlocal selected_container
         selected_container = new_item
         name_field.value = ""

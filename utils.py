@@ -300,7 +300,7 @@ def add_container(name: str, language: str) -> dict:
             try:
                 subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True)
             except Exception as e:
-                print(f"Помилка створення venv: {e}")
+                raise RuntimeError(f"Помилка створення venv: {e}")
     elif language == "Go":
         mod_file = box_path / "go.mod"
         if not mod_file.exists():
