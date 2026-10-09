@@ -4,11 +4,14 @@ import subprocess
 import sys
 from pathlib import Path
 
-# Підтримка PyInstaller (щоб дані зберігалися поруч із exe, а не в тимчасовій папці)
+# Підтримка PyInstaller та Nuitka
 if getattr(sys, 'frozen', False):
     BASE_DIR = Path(sys.executable).parent
+elif "__compiled__" in globals():
+    BASE_DIR = Path(sys.argv[0]).resolve().parent
 else:
     BASE_DIR = Path(__file__).parent
+
 
 DATA_FILE = BASE_DIR / "containers.json"
 SETTINGS_FILE = BASE_DIR / "settings.json"
@@ -288,7 +291,7 @@ def add_container(name: str, language: str) -> dict:
     if language == "Python":
         venv_path = box_path / ".venv"
         if not venv_path.exists():
-            if getattr(sys, 'frozen', False):
+            if getattr(sys, 'frozen', False) or "__compiled__" in globals():
                 import platform
                 python_exe = "python" if platform.system() == "Windows" else "python3"
             else:

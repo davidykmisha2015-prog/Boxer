@@ -27,3 +27,4 @@ boxer_app
 build/
 dist/
 *.spec
+boxer

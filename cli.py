@@ -140,11 +140,10 @@ def cmd_use(args):
         print(f"")
         print(f"   Встанови одним рядком:")
         print(f"   {setup_cmd}")
-        print(f"")
         print(f"   Або одразу виконай:")
         print(f'   {eval_cmd}')
     else:
-        print("\\n".join(commands))
+        print("\n".join(commands))
 
 
 
@@ -153,6 +152,8 @@ def cmd_setup(args):
     boxer_bin = str(Path(__file__).parent / "boxer")
     if getattr(sys, 'frozen', False):
         boxer_bin = str(Path(sys.executable))
+    elif "__compiled__" in globals():
+        boxer_bin = str(Path(sys.argv[0]).resolve())
 
     import platform
     is_win = platform.system() == "Windows"
