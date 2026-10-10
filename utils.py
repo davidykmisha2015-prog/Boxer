@@ -4,13 +4,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-# Підтримка PyInstaller та Nuitka
-if getattr(sys, 'frozen', False):
-    BASE_DIR = Path(sys.executable).parent
-elif "__compiled__" in globals():
-    BASE_DIR = Path(sys.argv[0]).resolve().parent
-else:
-    BASE_DIR = Path(__file__).parent
+# Завжди зберігаємо дані в домашній директорії користувача
+BASE_DIR = Path.home() / ".local" / "share" / "boxer"
+BASE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 DATA_FILE = BASE_DIR / "containers.json"
@@ -298,7 +294,11 @@ def add_container(name: str, language: str) -> dict:
                 python_exe = sys.executable
                 
             try:
-                subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True)
+                subprocess.run([python_exe, "-m", "venv", str(venv_path)], check=True, capture_output=True, text=True)
+            except subprocess.CalledProcessError as e:
+                err_msg = e.stderr or str(e)
+                hint = "\n(Можливо, на Ubuntu/Debian не встановлено python3-venv. Спробуйте: sudo apt install python3-venv)"
+                raise RuntimeError(f"Помилка створення venv:{hint}\nДеталі: {err_msg}")
             except Exception as e:
                 raise RuntimeError(f"Помилка створення venv: {e}")
     elif language == "Go":

@@ -31,7 +31,7 @@ cp "$INSTALL_DIR/app_icon.png" "$HOME/.local/share/icons/hicolor/256x256/apps/bo
 cp "$INSTALL_DIR/boxer_app.desktop" "$HOME/.local/share/applications/boxer.desktop"
 
 # Прописуємо правильні шляхи у ярлику
-sed -i "s|Exec=.*|Exec=$BIN_DIR/boxer|" "$HOME/.local/share/applications/boxer.desktop"
+sed -i "s|Exec=.*|Exec=$BIN_DIR/boxer_app|" "$HOME/.local/share/applications/boxer.desktop"
 sed -i "s|Icon=.*|Icon=boxer|" "$HOME/.local/share/applications/boxer.desktop"
 
 # Оновлюємо базу іконок та ярликів
